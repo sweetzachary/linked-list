@@ -10,10 +10,11 @@ class LinkedList
       return nil
     else
       current_node = @head
-      until current_node.next_node.nil?
+      until current_node.nil?
         yield(current_node)
         current_node = current_node.next_node
       end
+    end
   end
 
   def append(val)
@@ -21,9 +22,7 @@ class LinkedList
     if @head.nil?
       @head = Node.new(val)
     else
-      until current_node.next_node.nil?
-        current_node = next_node
-      end
+      current_node = current_node.next_node until current_node.next_node.nil?
       current_node.next_node = Node.new(val)
     end
   end
@@ -37,7 +36,7 @@ class LinkedList
       return 0
     else
       s = 0
-      each {|node| s+= 1}
+      each { |_| s+= 1 }
       s
     end
   end
@@ -48,7 +47,8 @@ class LinkedList
 
   def tail
     tail = nil
-    each { |node| tail = node if node.next_node.nil?}
+    each { |node| tail = node}
+    tail
   end
 
   def at(i)
@@ -63,14 +63,14 @@ class LinkedList
 
   def pop
     each do |node|
-      node.next_node = nil if node.next_node.next_node = nil
+      node.next_node = nil if node.next_node.next_node.nil?
     end
   end
 
   def contains?(val)
     ret = false
     each do |node|
-      ret = true if node.value = val
+      ret = true if node.value == val
     end
     ret
   end
@@ -79,7 +79,7 @@ class LinkedList
     index = nil
     i = 0
     each do |node|
-      index = i if node.value = val
+      index = i if node.value == val
       i += 1
     end
     index
@@ -89,6 +89,7 @@ class LinkedList
     str = ''
     each do |node|
       str.concat("( #{node.value} ) -> ")
+    end
+    str.concat('nil')
   end
-  str.concat('nil')
 end
